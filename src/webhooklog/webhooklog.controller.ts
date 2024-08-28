@@ -20,7 +20,6 @@ export class WebhookLogController {
 
   @Post()
   create(@Body() createWebhookLogDto: CreateWebhookLogDto) {
-    console.log(createWebhookLogDto);
     return this.webhooklogService.create(createWebhookLogDto);
   }
 
