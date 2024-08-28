@@ -36,7 +36,7 @@ export class WebhookLogService {
       .exec();
 
     const pageMetaDto = new PageMetaDto({
-      itemCount: count,
+      total: count,
       pageOptionsDto: { page, pageSize },
     });
 
@@ -45,6 +45,10 @@ export class WebhookLogService {
 
   findBySaleId(saleId: number) {
     return this.webhookLogModel.find({ saleId }).exec();
+  }
+
+  findByWebhookId(webhookId: number) {
+    return this.webhookLogModel.find({ webhookId }).exec();
   }
 
   findOne(id: number) {

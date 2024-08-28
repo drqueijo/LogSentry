@@ -2,7 +2,7 @@ import { PageOptionsDto } from '../dto/pageoptions.dto';
 
 export interface PageMetaDtoParameters {
   pageOptionsDto: PageOptionsDto;
-  itemCount: number;
+  total: number;
 }
 
 export class PageMetaDto {
@@ -10,20 +10,20 @@ export class PageMetaDto {
 
   readonly pageSize: number = 10;
 
-  readonly itemCount: number = 0;
+  readonly total: number = 0;
 
-  readonly pageCount: number = 0;
+  readonly pages: number = 0;
 
   readonly hasPreviousPage: boolean = false;
 
   readonly hasNextPage: boolean = false;
 
-  constructor({ pageOptionsDto, itemCount }: PageMetaDtoParameters) {
+  constructor({ pageOptionsDto, total }: PageMetaDtoParameters) {
     this.page = pageOptionsDto.page;
     this.pageSize = pageOptionsDto.pageSize;
-    this.itemCount = itemCount;
-    this.pageCount = Math.ceil(this.itemCount / this.pageSize);
+    this.total = total;
+    this.pages = Math.ceil(this.total / this.pageSize);
     this.hasPreviousPage = this.page > 1;
-    this.hasNextPage = this.page < this.pageCount;
+    this.hasNextPage = this.page < this.pages;
   }
 }

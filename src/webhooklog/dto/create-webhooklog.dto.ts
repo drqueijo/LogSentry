@@ -5,18 +5,27 @@ import {
   IsNotEmpty,
   IsObject,
   IsDate,
+  IsUUID,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Event } from '../constants/webhook.constants'; // Adjust the path as necessary
 
 export class CreateWebhookLogDto {
-  @IsOptional()
+  @IsNotEmpty()
   @IsNumber()
   webhookId?: number | null;
 
   @IsOptional()
+  @IsUUID()
+  webhookUuid?: string | null;
+
+  @IsNotEmpty()
   @IsNumber()
   saleId?: number | null;
+
+  @IsOptional()
+  @IsUUID()
+  saleUuid?: string | null;
 
   @IsNotEmpty()
   @IsString()
@@ -36,7 +45,7 @@ export class CreateWebhookLogDto {
   @Type(() => Object)
   responseData?: Record<string, any> | null;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsNumber()
   responseStatus?: number | null;
 

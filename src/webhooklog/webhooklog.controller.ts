@@ -20,6 +20,7 @@ export class WebhookLogController {
 
   @Post()
   create(@Body() createWebhookLogDto: CreateWebhookLogDto) {
+    console.log(createWebhookLogDto);
     return this.webhooklogService.create(createWebhookLogDto);
   }
 
@@ -36,6 +37,11 @@ export class WebhookLogController {
   @Get('sale-id/:saleId')
   findBySaleId(@Param('saleId') saleId: string) {
     return this.webhooklogService.findBySaleId(+saleId);
+  }
+
+  @Get('webhook-id/:webhookId')
+  findByWebhookId(@Param('webhookId') webhookId: string) {
+    return this.webhooklogService.findByWebhookId(+webhookId);
   }
 
   @Patch(':id')

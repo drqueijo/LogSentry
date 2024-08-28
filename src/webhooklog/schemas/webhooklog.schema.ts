@@ -9,8 +9,14 @@ export class WebhookLog {
   @Prop({ type: Number, default: null })
   webhookId?: number | null;
 
+  @Prop({ type: String, default: null })
+  webhookUuid?: string | null;
+
   @Prop({ type: Number, default: null })
   saleId?: number | null;
+
+  @Prop({ type: String, default: null })
+  saleUuid?: string | null;
 
   @Prop({ required: true, Type: Event })
   event: Event;
