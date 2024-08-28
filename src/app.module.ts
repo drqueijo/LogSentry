@@ -4,15 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { WebhookLogModule } from './webhooklog/webhooklog.module';
-
-const getEnv = (key: string): string => {
-  const value = process.env[key];
-  console.log(process.env[key]);
-  if (!value) {
-    throw new Error(`Environment variable ${key} is not set`);
-  }
-  return value;
-};
+import { PaginationService } from './pagination/pagination.service';
 
 @Module({
   imports: [
@@ -30,6 +22,6 @@ const getEnv = (key: string): string => {
     WebhookLogModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, PaginationService],
 })
 export class AppModule {}

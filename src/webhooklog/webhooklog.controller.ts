@@ -6,10 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { WebhookLogService } from './webhooklog.service';
 import { CreateWebhookLogDto } from './dto/create-webhooklog.dto';
 import { UpdateWebhookLogDto } from './dto/update-webhooklog.dto';
+import { PageOptionsDto } from '@/pagination/dto/pageoptions.dto';
+import { WebhookLog } from './schemas/webhooklog.schema';
 
 @Controller('webhooklog')
 export class WebhookLogController {
@@ -21,13 +24,18 @@ export class WebhookLogController {
   }
 
   @Get()
-  findAll() {
-    return this.webhooklogService.findAll();
+  findAll(@Query() query: PageOptionsDto & Partial<WebhookLog>) {
+    return this.webhooklogService.findAll(query);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.webhooklogService.findOne(+id);
+  }
+
+  @Get('sale-id/:saleId')
+  findBySaleId(@Param('saleId') saleId: string) {
+    return this.webhooklogService.findBySaleId(+saleId);
   }
 
   @Patch(':id')

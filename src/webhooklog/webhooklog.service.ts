@@ -4,12 +4,17 @@ import { UpdateWebhookLogDto } from './dto/update-webhooklog.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { WebhookLog, WebhookLogDocument } from './schemas/webhooklog.schema';
 import { Model } from 'mongoose';
+import { PageOptionsDto } from '@/pagination/dto/pageoptions.dto';
+import { PaginationService } from '@/pagination/pagination.service';
+import { PageDto } from '@/pagination/dto/page.dto';
+import { PageMetaDto } from '@/pagination/meta/page.meta';
 
 @Injectable()
 export class WebhookLogService {
   constructor(
     @InjectModel(WebhookLog.name)
     private webhookLogModel: Model<WebhookLogDocument>,
+    private paginationService: PaginationService,
   ) {}
 
   create(createWebhookLogDto: CreateWebhookLogDto) {
@@ -17,8 +22,29 @@ export class WebhookLogService {
     return createdWebhookLog.save();
   }
 
-  findAll() {
-    return this.webhookLogModel.find().exec();
+  async findAll(queryParams: PageOptionsDto & Partial<WebhookLog>) {
+    const { query, sort, page, pageSize } =
+      this.paginationService.create<WebhookLog>(queryParams);
+
+    const count = await this.webhookLogModel.countDocuments(query).exec();
+
+    const data = await this.webhookLogModel
+      .find(query)
+      .sort(sort)
+      .skip((page - 1) * pageSize)
+      .limit(pageSize)
+      .exec();
+
+    const pageMetaDto = new PageMetaDto({
+      itemCount: count,
+      pageOptionsDto: { page, pageSize },
+    });
+
+    return new PageDto(data, pageMetaDto);
+  }
+
+  findBySaleId(saleId: number) {
+    return this.webhookLogModel.find({ saleId }).exec();
   }
 
   findOne(id: number) {
