@@ -13,7 +13,8 @@
     "incremental": true,
     "paths": {
       "@/*": ["src/*"],
-      "@shared/*": ["src/shared/*"]
+      "@module/*": ["src/modules/*"],
+      "@middleware/*": ["src/middlewares/*"]
     },
     "skipLibCheck": true,
     "strictNullChecks": false,

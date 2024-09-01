@@ -4,10 +4,11 @@ import { UpdateWebhookLogDto } from './dto/update-webhooklog.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { WebhookLog, WebhookLogDocument } from './schemas/webhooklog.schema';
 import { Model } from 'mongoose';
-import { PageOptionsDto } from '@/pagination/dto/pageoptions.dto';
-import { PaginationService } from '@/pagination/pagination.service';
-import { PageDto } from '@/pagination/dto/page.dto';
-import { PageMetaDto } from '@/pagination/meta/page.meta';
+import { PageOptionsDto } from '@/modules/pagination/dto/pageoptions.dto';
+import { PaginationService } from '@/modules/pagination/pagination.service';
+import { PageDto } from '@/modules/pagination/dto/page.dto';
+import { PageMetaDto } from '@/modules/pagination/meta/page.meta';
+import { DeleteResult } from 'typeorm/driver/mongodb/typings';
 
 @Injectable()
 export class WebhookLogService {
@@ -61,5 +62,9 @@ export class WebhookLogService {
 
   remove(id: number) {
     return `This action removes a #${id} webhooklog`;
+  }
+
+  async removeAll(): Promise<DeleteResult> {
+    return await this.webhookLogModel.deleteMany({}).exec();
   }
 }

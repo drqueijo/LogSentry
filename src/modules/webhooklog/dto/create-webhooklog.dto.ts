@@ -19,6 +19,10 @@ export class CreateWebhookLogDto {
   @IsUUID()
   webhookUuid?: string | null;
 
+  @IsOptional()
+  @IsString()
+  webhookName?: string | null;
+
   @IsNotEmpty()
   @IsNumber()
   saleId?: number | null;

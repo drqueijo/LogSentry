@@ -11,7 +11,7 @@ import {
 import { WebhookLogService } from './webhooklog.service';
 import { CreateWebhookLogDto } from './dto/create-webhooklog.dto';
 import { UpdateWebhookLogDto } from './dto/update-webhooklog.dto';
-import { PageOptionsDto } from '@/pagination/dto/pageoptions.dto';
+import { PageOptionsDto } from '@/modules/pagination/dto/pageoptions.dto';
 import { WebhookLog } from './schemas/webhooklog.schema';
 
 @Controller('webhooklog')
@@ -54,5 +54,10 @@ export class WebhookLogController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.webhooklogService.remove(+id);
+  }
+
+  @Delete()
+  removeAll() {
+    return this.webhooklogService.removeAll();
   }
 }

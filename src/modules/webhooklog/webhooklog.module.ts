@@ -3,7 +3,7 @@ import { WebhookLogService } from './webhooklog.service';
 import { WebhookLogController } from './webhooklog.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { WebhookLog, WebhookLogSchema } from './schemas/webhooklog.schema';
-import { PaginationService } from '@/pagination/pagination.service';
+import { PaginationService } from '@/modules/pagination/pagination.service';
 
 @Module({
   imports: [
@@ -13,5 +13,6 @@ import { PaginationService } from '@/pagination/pagination.service';
   ],
   controllers: [WebhookLogController],
   providers: [WebhookLogService, PaginationService],
+  exports: [WebhookLogService],
 })
 export class WebhookLogModule {}

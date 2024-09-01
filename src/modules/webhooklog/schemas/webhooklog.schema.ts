@@ -43,6 +43,6 @@ export class WebhookLog {
 export const WebhookLogSchema = SchemaFactory.createForClass(WebhookLog);
 
 WebhookLogSchema.index({ webhookId: 1 });
+WebhookLogSchema.index({ saleUuid: 1, createdAt: -1 });
 WebhookLogSchema.index({ saleId: 1 });
-WebhookLogSchema.index({ event: 1 });
 WebhookLogSchema.index({ createdAt: -1 });

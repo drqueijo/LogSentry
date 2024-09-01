@@ -1,6 +1,6 @@
-import { PageOptionsDto } from '@/pagination/dto/pageoptions.dto';
-import { Filter } from '@/pagination/utils/filter';
-import { Sorter } from '@/pagination/utils/sorter';
+import { PageOptionsDto } from '@/modules/pagination/dto/pageoptions.dto';
+import { Filter } from '@/modules/pagination/utils/filter';
+import { Sorter } from '@/modules/pagination/utils/sorter';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
