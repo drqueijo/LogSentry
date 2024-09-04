@@ -24,7 +24,9 @@ export class WebhookLogController {
   }
 
   @Get()
-  findAll(@Query() query: PageOptionsDto & Partial<WebhookLog>) {
+  findAll(
+    @Query() query: PageOptionsDto & Partial<WebhookLog & { status: string }>,
+  ) {
     return this.webhooklogService.findAll(query);
   }
 
@@ -38,9 +40,9 @@ export class WebhookLogController {
     return this.webhooklogService.findBySaleId(+saleId);
   }
 
-  @Get('webhook-id/:webhookId')
-  findByWebhookId(@Param('webhookId') webhookId: string) {
-    return this.webhooklogService.findByWebhookId(+webhookId);
+  @Get('webhook-uuid/:webhookUuid')
+  findByWebhookId(@Param('webhookUuid') webhookUuid: string) {
+    return this.webhooklogService.findByWebhookUuid(webhookUuid);
   }
 
   @Patch(':id')

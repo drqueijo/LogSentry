@@ -6,6 +6,7 @@ export class LogMiddleware implements NestMiddleware {
   logger = new Logger('Response');
   use(req: Request, res: Response, next: NextFunction) {
     const { method, originalUrl } = req;
+
     const reqTime = new Date().getTime();
 
     res.on('finish', () => {
@@ -13,6 +14,10 @@ export class LogMiddleware implements NestMiddleware {
       const resTime = new Date().getTime() - reqTime;
       if (statusCode === 200 || statusCode === 201) {
         this.logger.log(`${method} ${originalUrl} ${statusCode} ${resTime}ms`);
+      } else {
+        this.logger.error(
+          `${method} ${originalUrl} ${statusCode} ${resTime}ms`,
+        );
       }
     });
     next();

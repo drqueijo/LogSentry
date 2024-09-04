@@ -5,31 +5,25 @@ import {
   IsNotEmpty,
   IsObject,
   IsDate,
-  IsUUID,
+  ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Event } from '../constants/webhook.constants'; // Adjust the path as necessary
+import { Event } from '../constants/webhook.constants';
+import { WebhookDto } from './webhook.dto';
+import { SaleDto } from './sale.dto';
 
 export class CreateWebhookLogDto {
   @IsNotEmpty()
-  @IsNumber()
-  webhookId?: number | null;
+  @IsObject()
+  @Type(() => WebhookDto)
+  @ValidateNested()
+  webhook: WebhookDto;
 
   @IsOptional()
-  @IsUUID()
-  webhookUuid?: string | null;
-
-  @IsOptional()
-  @IsString()
-  webhookName?: string | null;
-
-  @IsNotEmpty()
-  @IsNumber()
-  saleId?: number | null;
-
-  @IsOptional()
-  @IsUUID()
-  saleUuid?: string | null;
+  @IsObject()
+  @Type(() => SaleDto)
+  @ValidateNested()
+  sale?: SaleDto;
 
   @IsNotEmpty()
   @IsString()
@@ -49,7 +43,7 @@ export class CreateWebhookLogDto {
   @Type(() => Object)
   responseData?: Record<string, any> | null;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
   responseStatus?: number | null;
 

@@ -17,3 +17,9 @@ export enum Event {
   SUBSCRIPTION_RENEWED = 'SUBSCRIPTION_RENEWED',
   TEST = 'TEST',
 }
+
+export enum StatusCode {
+  SUCCESS = 'SUCCESS',
+  EMPTY = 'EMPTY',
+  ERROR = 'ERROR',
+}

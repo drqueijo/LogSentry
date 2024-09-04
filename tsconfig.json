@@ -14,7 +14,8 @@
     "paths": {
       "@/*": ["src/*"],
       "@module/*": ["src/modules/*"],
-      "@middleware/*": ["src/middlewares/*"]
+      "@middleware/*": ["src/middlewares/*"],
+      "@config/*": ["src/config/*"]
     },
     "skipLibCheck": true,
     "strictNullChecks": false,

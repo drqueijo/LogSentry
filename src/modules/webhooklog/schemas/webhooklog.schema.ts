@@ -1,22 +1,18 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Event } from '../constants/webhook.constants';
+import { Webhook } from '../types/webhook.types';
+import { Sale } from '../types/sale.types';
 
 export type WebhookLogDocument = Document & WebhookLog;
 
 @Schema()
 export class WebhookLog {
-  @Prop({ type: Number, default: null })
-  webhookId?: number | null;
+  @Prop({ type: MongooseSchema.Types.Mixed, required: true })
+  webhook: Webhook;
 
-  @Prop({ type: String, default: null })
-  webhookUuid?: string | null;
-
-  @Prop({ type: Number, default: null })
-  saleId?: number | null;
-
-  @Prop({ type: String, default: null })
-  saleUuid?: string | null;
+  @Prop({ type: MongooseSchema.Types.Mixed, required: false })
+  sale?: Sale;
 
   @Prop({ required: true, Type: Event })
   event: Event;

@@ -3,12 +3,13 @@ import { CreateWebhookLogDto } from './dto/create-webhooklog.dto';
 import { UpdateWebhookLogDto } from './dto/update-webhooklog.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { WebhookLog, WebhookLogDocument } from './schemas/webhooklog.schema';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { PageOptionsDto } from '@/modules/pagination/dto/pageoptions.dto';
 import { PaginationService } from '@/modules/pagination/pagination.service';
 import { PageDto } from '@/modules/pagination/dto/page.dto';
 import { PageMetaDto } from '@/modules/pagination/meta/page.meta';
 import { DeleteResult } from 'typeorm/driver/mongodb/typings';
+import { StatusCode } from './constants/webhook.constants';
 
 @Injectable()
 export class WebhookLogService {
@@ -23,14 +24,42 @@ export class WebhookLogService {
     return createdWebhookLog.save();
   }
 
-  async findAll(queryParams: PageOptionsDto & Partial<WebhookLog>) {
+  async findAll(
+    queryParams: PageOptionsDto & Partial<WebhookLog & { status: string }>,
+  ) {
+    const { status, ...rest } = queryParams;
     const { query, sort, page, pageSize } =
-      this.paginationService.create<WebhookLog>(queryParams);
+      this.paginationService.create<WebhookLog>(rest, [
+        'webhook.name',
+        'sale.code',
+        'event',
+      ]);
 
-    const count = await this.webhookLogModel.countDocuments(query).exec();
+    let responseStatusFilter: FilterQuery<WebhookLog>;
+
+    switch (status) {
+      case StatusCode.ERROR:
+        responseStatusFilter = { $gte: 400 };
+        break;
+      case StatusCode.EMPTY:
+        responseStatusFilter = { $in: [null, undefined] };
+        break;
+      case StatusCode.SUCCESS:
+        responseStatusFilter = { $in: [200, 300] };
+        break;
+      default:
+        break;
+    }
+
+    const finalQuery = {
+      ...query,
+      ...(responseStatusFilter && { responseStatus: responseStatusFilter }),
+    };
+
+    const count = await this.webhookLogModel.countDocuments(finalQuery).exec();
 
     const data = await this.webhookLogModel
-      .find(query)
+      .find(finalQuery)
       .sort(sort)
       .skip((page - 1) * pageSize)
       .limit(pageSize)
@@ -48,8 +77,10 @@ export class WebhookLogService {
     return this.webhookLogModel.find({ saleId }).exec();
   }
 
-  findByWebhookId(webhookId: number) {
-    return this.webhookLogModel.find({ webhookId }).exec();
+  async findByWebhookUuid(webhookUuid: string) {
+    const webhookLogs = await this.webhookLogModel.find({ webhookUuid }).exec();
+
+    return webhookLogs;
   }
 
   findOne(id: number) {

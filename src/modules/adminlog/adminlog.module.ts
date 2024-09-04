@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { AdminlogService } from './adminlog.service';
 import { AdminlogController } from './adminlog.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -11,6 +11,6 @@ import { WebhookLogModule } from '@/modules/webhooklog/webhooklog.module'; // Im
     WebhookLogModule, // Import the module
   ],
   controllers: [AdminlogController],
-  providers: [AdminlogService],
+  providers: [AdminlogService, Logger],
 })
 export class AdminlogModule {}
