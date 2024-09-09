@@ -32,10 +32,10 @@ export class WebhookLogController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.webhooklogService.findOne(+id);
+    return this.webhooklogService.findOne(id);
   }
 
-  @Get('sale-id/:saleId')
+  @Get('sale/:saleId')
   findBySaleId(@Param('saleId') saleId: string) {
     return this.webhooklogService.findBySaleId(+saleId);
   }
@@ -50,7 +50,7 @@ export class WebhookLogController {
     @Param('id') id: string,
     @Body() updateWebhookLogDto: UpdateWebhookLogDto,
   ) {
-    return this.webhooklogService.update(+id, updateWebhookLogDto);
+    return this.webhooklogService.update(id, updateWebhookLogDto);
   }
 
   @Delete(':id')

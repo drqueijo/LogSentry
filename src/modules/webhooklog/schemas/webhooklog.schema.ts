@@ -14,6 +14,12 @@ export class WebhookLog {
   @Prop({ type: MongooseSchema.Types.Mixed, required: false })
   sale?: Sale;
 
+  @Prop({ type: String, required: false })
+  token?: string;
+
+  @Prop({ type: String, required: false })
+  planCode?: string;
+
   @Prop({ required: true, Type: Event })
   event: Event;
 

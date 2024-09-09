@@ -29,6 +29,14 @@ export class CreateWebhookLogDto {
   @IsString()
   event: Event;
 
+  @IsOptional()
+  @IsString()
+  token?: string;
+
+  @IsOptional()
+  @IsString()
+  planCode?: string;
+
   @IsNotEmpty()
   @IsString()
   url: string;

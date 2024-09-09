@@ -74,21 +74,23 @@ export class WebhookLogService {
   }
 
   findBySaleId(saleId: number) {
-    return this.webhookLogModel.find({ saleId }).exec();
+    return this.webhookLogModel.find({ sale: { id: saleId } }).exec();
   }
 
   async findByWebhookUuid(webhookUuid: string) {
     const webhookLogs = await this.webhookLogModel.find({ webhookUuid }).exec();
-
     return webhookLogs;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} webhooklog`;
+  findOne(uuid: string) {
+    const webhookLog = this.webhookLogModel.findOne({ _id: uuid }).exec();
+    return webhookLog;
   }
 
-  update(id: number, updateWebhookLogDto: UpdateWebhookLogDto) {
-    return `This action updates a #${id} webhooklog`;
+  update(id: string, updateWebhookLogDto: UpdateWebhookLogDto) {
+    return this.webhookLogModel
+      .updateOne({ _id: id }, updateWebhookLogDto)
+      .exec();
   }
 
   remove(id: number) {
